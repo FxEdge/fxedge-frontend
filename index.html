@@ -1,110 +1,53 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>FXEdge Simulatore – Prototipo</title>
+  <title>FXEdge – Guida Arbitraggio</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 700px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      background-color: #f5f7fa;
+      color: #0c1e2c;
+      text-align: center;
+      padding: 40px;
     }
     h1 {
-      text-align: center;
       color: #0c1e2c;
+      margin-bottom: 10px;
     }
-    label {
-      display: block;
-      margin-top: 15px;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+    p {
+      max-width: 700px;
+      margin: auto;
+      margin-bottom: 30px;
+      font-size: 18px;
+      line-height: 1.6;
     }
     button {
       background-color: #0073e6;
       color: white;
-      font-size: 16px;
-      margin-top: 20px;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      margin: 10px;
+      border-radius: 8px;
       cursor: pointer;
     }
     button:hover {
       background-color: #005bb5;
     }
-    .results {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #f0f8ff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .results pre {
-      font-family: monospace;
+    .logo {
+      max-width: 180px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>FXEdge Simulatore (Prototipo)</h1>
+  <img src="fxedge-logo-toro.png" alt="FXEdge Logo" class="logo" />
+  <h1>Benvenuto su FXEdge</h1>
+  <p>Grazie per il tuo acquisto! Qui puoi accedere al simulatore oppure, se non l'hai ancora fatto, scaricare il tuo prodotto da Gumroad.</p>
 
-    <label for="capitale">Capitale iniziale (€):</label>
-    <input type="number" id="capitale" placeholder="Es. 1000" />
-
-    <label for="soglia">Soglia minima di profitto (€):</label>
-    <input type="number" id="soglia" placeholder="Es. 3" step="0.01" />
-
-    <label for="numero">Numero massimo di operazioni:</label>
-    <input type="number" id="numero" placeholder="Es. 5" />
-
-    <button onclick="simulaOperazioni()">Simula operazioni</button>
-    <div class="results" id="risultato">
-      <strong>Risultati appariranno qui...</strong>
-    </div>
-    <button onclick="simulaOperazioni()">🔁 Simula ancora</button>
-  </div>
-
-  <script>
-    function simulaOperazioni() {
-      const capitale = parseFloat(document.getElementById("capitale").value);
-      const soglia = parseFloat(document.getElementById("soglia").value);
-      const numero = parseInt(document.getElementById("numero").value) || 5;
-
-      const spreadRilevato = 0.12; // valore simulato dello spread di mercato
-
-      const tutteLeOperazioni = [
-        { descrizione: "EUR/USD → USD/JPY → EUR", profitto: 3.87 },
-        { descrizione: "USD/CHF → EUR/GBP → USD", profitto: 2.13 },
-        { descrizione: "GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
-        { descrizione: "CAD/JPY → AUD/USD → CAD", profitto: 0.93 },
-        { descrizione: "EUR/JPY → GBP/CHF → EUR", profitto: 4.15 },
-        { descrizione: "USD/CAD → EUR/USD → USD", profitto: 3.21 },
-        { descrizione: "AUD/JPY → USD/CHF → AUD", profitto: 1.75 },
-        { descrizione: "GBP/CAD → EUR/JPY → GBP", profitto: 2.88 }
-      ];
-
-      const selezionate = tutteLeOperazioni
-        .sort(() => 0.5 - Math.random())
-        .slice(0, numero)
-        .map(op => {
-          const simbolo = op.profitto >= soglia ? '✅' : '❌';
-          return `${op.descrizione}: Profitto netto: €${op.profitto.toFixed(2)} ${simbolo}`;
-        });
-
-      document.getElementById("risultato").innerHTML =
-        "<pre>" + selezionate.join("<br>") + `<br><br>Spread di mercato rilevato: ${spreadRilevato}%<br>Commissioni di mercato rilevate: 0.10%` + "</pre>";
-    }
-  </script>
+  <button onclick="location.href='login.html'">🔐 Accedi al simulatore</button>
+  <button onclick="location.href='https://fxedge.gumroad.com/'">📥 Scarica ora su Gumroad</button>
 </body>
 </html>
-
