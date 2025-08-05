@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accesso FXEdge</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 50px; text-align: center; }
+    .login-box { max-width: 400px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+    button { background-color: #0073e6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    button:hover { background-color: #005bb5; }
+    .error { color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Accesso al Simulatore FXEdge</h2>
+    <input type="email" id="email" placeholder="Inserisci la tua email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="verificaLogin()">Accedi</button>
+    <p class="error" id="errore"></p>
+  </div>
+  <script src="utenti_autorizzati.js"></script>
+  <script>
+    function verificaLogin() {
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value.trim();
+      const errore = document.getElementById('errore');
+
+      if (utentiAutorizzati.includes(email) && password === passwordCorretta) {
+        window.location.href = "simulatore.html";
+      } else {
+        errore.textContent = "Accesso negato. Email o password non corretti.";
+      }
+    }
+  </script>
+</body>
+</html>
