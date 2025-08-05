@@ -64,39 +64,45 @@
     <label for="soglia">Soglia minima di profitto (€):</label>
     <input type="number" id="soglia" placeholder="Es. 3" step="0.01" />
 
-    <button onclick="simulaOperazioni()">Simula 5 operazioni</button>
+    <label for="numero">Numero massimo di operazioni:</label>
+    <input type="number" id="numero" placeholder="Es. 5" />
+
+    <button onclick="simulaOperazioni()">Simula operazioni</button>
     <div class="results" id="risultato">
       <strong>Risultati appariranno qui...</strong>
     </div>
-    <button onclick="simulaOperazioni()">🔁 Simula altre 5</button>
+    <button onclick="simulaOperazioni()">🔁 Simula ancora</button>
   </div>
 
   <script>
     function simulaOperazioni() {
       const capitale = parseFloat(document.getElementById("capitale").value);
       const soglia = parseFloat(document.getElementById("soglia").value);
+      const numero = parseInt(document.getElementById("numero").value) || 5;
+
+      const spreadRilevato = 0.12; // valore simulato dello spread di mercato
 
       const tutteLeOperazioni = [
-        { descrizione: "1. EUR/USD → USD/JPY → EUR", profitto: 3.87 },
-        { descrizione: "2. USD/CHF → EUR/GBP → USD", profitto: 2.13 },
-        { descrizione: "3. GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
-        { descrizione: "4. CAD/JPY → AUD/USD → CAD", profitto: 0.93 },
-        { descrizione: "5. EUR/JPY → GBP/CHF → EUR", profitto: 4.15 },
-        { descrizione: "6. USD/CAD → EUR/USD → USD", profitto: 3.21 },
-        { descrizione: "7. AUD/JPY → USD/CHF → AUD", profitto: 1.75 },
-        { descrizione: "8. GBP/CAD → EUR/JPY → GBP", profitto: 2.88 }
+        { descrizione: "EUR/USD → USD/JPY → EUR", profitto: 3.87 },
+        { descrizione: "USD/CHF → EUR/GBP → USD", profitto: 2.13 },
+        { descrizione: "GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
+        { descrizione: "CAD/JPY → AUD/USD → CAD", profitto: 0.93 },
+        { descrizione: "EUR/JPY → GBP/CHF → EUR", profitto: 4.15 },
+        { descrizione: "USD/CAD → EUR/USD → USD", profitto: 3.21 },
+        { descrizione: "AUD/JPY → USD/CHF → AUD", profitto: 1.75 },
+        { descrizione: "GBP/CAD → EUR/JPY → GBP", profitto: 2.88 }
       ];
 
       const selezionate = tutteLeOperazioni
         .sort(() => 0.5 - Math.random())
-        .slice(0, 5)
+        .slice(0, numero)
         .map(op => {
           const simbolo = op.profitto >= soglia ? '✅' : '❌';
           return `${op.descrizione}: Profitto netto: €${op.profitto.toFixed(2)} ${simbolo}`;
         });
 
       document.getElementById("risultato").innerHTML =
-        "<pre>" + selezionate.join("\n") + "</pre>";
+        "<pre>" + selezionate.join("<br>") + `<br><br>Spread di mercato rilevato: ${spreadRilevato}%<br>Commissioni di mercato rilevate: 0.10%` + "</pre>";
     }
   </script>
 </body>
