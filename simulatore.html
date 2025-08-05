@@ -1,124 +1,83 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>FXEdge Simulatore – Prototipo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulatore Arbitraggio FXEdge</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 700px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #0c1e2c;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #0073e6;
-      color: white;
-      font-size: 16px;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #005bb5;
-    }
-    .results {
-      margin-top: 30px;
+      background-color: #f4faff;
       padding: 20px;
-      background-color: #f0f8ff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      text-align: center;
     }
-    .results pre {
+    .button {
+      background-color: #2979ff;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px auto;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    #risultato {
+      background-color: #e8f0fe;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
       font-family: monospace;
+      text-align: left;
+      display: inline-block;
+      white-space: pre-line;
+    }
+    .green-check {
+      color: green;
+      font-weight: bold;
+    }
+    .red-x {
+      color: crimson;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>FXEdge Simulatore (Prototipo)</h1>
-
-    <label for="capitale">Capitale iniziale (€):</label>
-    <input type="number" id="capitale" placeholder="Es. 1000" />
-
-    <label for="soglia">Soglia minima di profitto (€):</label>
-    <input type="number" id="soglia" placeholder="Es. 3" step="0.01" />
-
-    <label for="numero">Numero massimo di operazioni:</label>
-    <input type="number" id="numero" placeholder="Es. 5" />
-
-    <button onclick="simulaOperazioni()">Simula operazioni</button>
-    <div class="results" id="risultato">
-      <strong>Risultati appariranno qui...</strong>
-    </div>
-    <button onclick="simulaOperazioni()">🔁 Simula ancora</button>
-  </div>
+  <h1>Simulatore Arbitraggio FXEdge</h1>
+  <button class="button" onclick="simulaOperazioni()">Simula operazioni</button>
+  <div id="risultato"></div>
+  <button class="button" onclick="simulaOperazioni()">🔁 Simula ancora</button>
 
   <script>
     function simulaOperazioni() {
-      const capitale = parseFloat(document.getElementById("capitale").value);
-      const soglia = parseFloat(document.getElementById("soglia").value);
-      const numero = parseInt(document.getElementById("numero").value) || 5;
-
-      if (isNaN(capitale) || isNaN(soglia) || isNaN(numero)) {
-        alert("Inserisci tutti i campi richiesti.");
-        return;
-      }
-
-      const spreadRilevato = 0.12;
-      const commissioneRilevata = 0.10;
-
-      const tutteLeOperazioni = [
-        { descrizione: "EUR/USD → USD/JPY → EUR", profitto: 3.87 },
-        { descrizione: "USD/CHF → EUR/GBP → USD", profitto: 2.13 },
-        { descrizione: "GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
-        { descrizione: "CAD/JPY → AUD/USD → CAD", profitto: 0.93 },
-        { descrizione: "EUR/JPY → GBP/CHF → EUR", profitto: 4.15 },
-        { descrizione: "USD/CAD → EUR/USD → USD", profitto: 3.21 },
-        { descrizione: "AUD/JPY → USD/CHF → AUD", profitto: 1.75 },
-        { descrizione: "GBP/CAD → EUR/JPY → GBP", profitto: 2.88 }
+      const operazioni = [
+        { percorso: "EUR/USD → USD/JPY → EUR", profitto: 3.87 },
+        { percorso: "USD/CHF → EUR/GBP → USD", profitto: 2.13 },
+        { percorso: "USD/CAD → EUR/USD → USD", profitto: 3.21 },
+        { percorso: "GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
+        { percorso: "CAD/JPY → AUD/USD → CAD", profitto: 0.93 }
       ];
 
-      const selezionate = tutteLeOperazioni
-        .sort(() => 0.5 - Math.random())
-        .slice(0, numero)
-        .map(op => {
-          const simbolo = op.profitto >= soglia ? '✅' : '❌';
-          return `${op.descrizione}: Profitto netto: €${op.profitto.toFixed(2)} ${simbolo}`;
-        });
+      let soglia = 4.0;
+      let sopra = 0;
+      let sotto = 0;
+      let html = "";
 
-      const sopraSoglia = selezionate.filter(r => r.includes('✅')).length;
-      const sottoSoglia = selezionate.filter(r => r.includes('❌')).length;
+      operazioni.forEach(op => {
+        const check = op.profitto > soglia ? "✅" : "❌";
+        html += `${op.percorso.padEnd(40)} Profitto netto: €${op.profitto.toFixed(2)} ${check}\n`;
+        if (op.profitto > soglia) sopra++;
+        else sotto++;
+      });
 
-      const contenuto = `
-        ${selezionate.join("<br>")}
-        <br><br><strong>Totale operazioni sopra soglia:</strong> ${sopraSoglia}<br>
-        <strong>Totale operazioni sotto soglia:</strong> ${sottoSoglia}<br><br>
-        Spread di mercato rilevato: ${spreadRilevato}%<br>
-        Commissioni di mercato rilevate: ${commissioneRilevata}%
-      `;
+      html += `\nTotale operazioni sopra soglia: ${sopra}`;
+      html += `\nTotale operazioni sotto soglia: ${sotto}`;
+      html += `\n\nSpread di mercato rilevato: 0.12%`;
+      html += `\nCommissioni di mercato rilevate: 0.1%`;
 
-      document.getElementById("risultato").innerHTML = `<pre>${contenuto}</pre>`;
+      document.getElementById("risultato").innerHTML = `<pre>${html}</pre>`;
     }
   </script>
 </body>
