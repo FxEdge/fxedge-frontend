@@ -25,7 +25,7 @@
       display: block;
       margin-top: 15px;
     }
-    input, select, textarea, button {
+    input, button {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -57,18 +57,9 @@
 <body>
   <div class="container">
     <h1>FXEdge Simulatore (Prototipo)</h1>
+
     <label for="capitale">Capitale iniziale (€):</label>
     <input type="number" id="capitale" placeholder="Es. 1000" />
-
-    <label for="coppie">Coppie valutarie da analizzare:</label>
-    <select id="coppie" multiple>
-      <option value="EUR/USD">EUR/USD</option>
-      <option value="USD/JPY">USD/JPY</option>
-      <option value="GBP/USD">GBP/USD</option>
-      <option value="USD/CHF">USD/CHF</option>
-      <option value="AUD/USD">AUD/USD</option>
-      <option value="EUR/GBP">EUR/GBP</option>
-    </select>
 
     <label for="soglia">Soglia minima di profitto (€):</label>
     <input type="number" id="soglia" placeholder="Es. 3" step="0.01" />
@@ -82,23 +73,30 @@
 
   <script>
     function simulaOperazioni() {
-      const capitale = document.getElementById("capitale").value;
-      const select = document.getElementById("coppie");
-      const selected = Array.from(select.selectedOptions).map(opt => opt.value).join(", ");
-      const soglia = document.getElementById("soglia").value;
+      const capitale = parseFloat(document.getElementById("capitale").value);
+      const soglia = parseFloat(document.getElementById("soglia").value);
 
-      const risultati = [
-        "1. EUR/USD → USD/JPY → EUR: Profitto netto: €3.87 ✅",
-        "2. USD/CHF → EUR/GBP → USD: Profitto netto: €2.13 ❌",
-        "3. GBP/USD → EUR/CHF → GBP: Profitto netto: €5.01 ✅",
-        "4. CAD/JPY → AUD/USD → CAD: Profitto netto: €0.93 ❌",
-        "5. EUR/JPY → GBP/CHF → EUR: Profitto netto: €4.15 ✅"
+      const tutteLeOperazioni = [
+        { descrizione: "1. EUR/USD → USD/JPY → EUR", profitto: 3.87 },
+        { descrizione: "2. USD/CHF → EUR/GBP → USD", profitto: 2.13 },
+        { descrizione: "3. GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
+        { descrizione: "4. CAD/JPY → AUD/USD → CAD", profitto: 0.93 },
+        { descrizione: "5. EUR/JPY → GBP/CHF → EUR", profitto: 4.15 },
+        { descrizione: "6. USD/CAD → EUR/USD → USD", profitto: 3.21 },
+        { descrizione: "7. AUD/JPY → USD/CHF → AUD", profitto: 1.75 },
+        { descrizione: "8. GBP/CAD → EUR/JPY → GBP", profitto: 2.88 }
       ];
 
-      const out = risultati.sort(() => 0.5 - Math.random()).slice(0, 5);
+      const selezionate = tutteLeOperazioni
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 5)
+        .map(op => {
+          const simbolo = op.profitto >= soglia ? '✅' : '❌';
+          return `${op.descrizione}: Profitto netto: €${op.profitto.toFixed(2)} ${simbolo}`;
+        });
 
       document.getElementById("risultato").innerHTML =
-        "<pre>Coppie selezionate: " + selected + "\n\n" + out.join("\n") + "</pre>";
+        "<pre>" + selezionate.join("\n") + "</pre>";
     }
   </script>
 </body>
