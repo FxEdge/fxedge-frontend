@@ -2,114 +2,105 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FXEdge Simulator – Impara l'arbitraggio</title>
+  <title>FXEdge Simulatore – Prototipo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
       margin: 0;
-      background: #f4f4f4;
-      color: #333;
+      padding: 0;
     }
-    header {
-      background: #0c1e2c;
-      color: white;
-      padding: 40px 20px;
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
       text-align: center;
+      color: #0c1e2c;
     }
-    header img {
-      height: 120px;
-      margin-bottom: 10px;
+    label {
+      display: block;
+      margin-top: 15px;
     }
-    h1, h2 {
-      margin-top: 10px;
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-    .content {
-      max-width: 800px;
-      margin: auto;
-      padding: 40px 20px;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .cta-button {
-      display: inline-block;
-      background: #0073e6;
+    button {
+      background-color: #0073e6;
       color: white;
-      padding: 15px 25px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .results {
       margin-top: 30px;
-      font-size: 18px;
-      text-decoration: none;
-      border-radius: 8px;
-    }
-    footer {
-      text-align: center;
       padding: 20px;
-      font-size: 14px;
-      color: #777;
+      background-color: #f0f8ff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .results pre {
+      font-family: monospace;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="fxedge-logo-toro.png" alt="FXEdge Logo con toro" />
-    <h1>Scopri FXEdge Simulator</h1>
-    <p>Simula operazioni di arbitraggio senza rischi e impara davvero come funziona il trading quantitativo</p>
-  </header>
+  <div class="container">
+    <h1>FXEdge Simulatore (Prototipo)</h1>
+    <label for="capitale">Capitale iniziale (€):</label>
+    <input type="number" id="capitale" placeholder="Es. 1000" />
 
-  <div class="content">
-    <h2>Cosa include?</h2>
-    <ul>
-      <li>✅ Ebook introduttivo all'arbitraggio (PDF)</li>
-      <li>✅ Simulatore in Python già pronto all'uso</li>
-      <li>✅ Guida passo-passo per principianti</li>
-      <li>✅ Salvataggio dei risultati in Excel (.CSV)</li>
-    </ul>
+    <label for="coppie">Coppie valutarie da analizzare:</label>
+    <select id="coppie" multiple>
+      <option value="EUR/USD">EUR/USD</option>
+      <option value="USD/JPY">USD/JPY</option>
+      <option value="GBP/USD">GBP/USD</option>
+      <option value="USD/CHF">USD/CHF</option>
+      <option value="AUD/USD">AUD/USD</option>
+      <option value="EUR/GBP">EUR/GBP</option>
+    </select>
 
-    <h2>Perché provarlo?</h2>
-    <p>FXEdge non è un sistema di investimento, ma un percorso didattico progettato per farti capire come funziona davvero l'arbitraggio. Simuli operazioni reali, scopri i rischi e i vantaggi, e impari tutto senza dover rischiare capitale reale.</p>
+    <label for="soglia">Soglia minima di profitto (€):</label>
+    <input type="number" id="soglia" placeholder="Es. 3" step="0.01" />
 
-    <h2>Come funziona FXEdge Simulator</h2>
-    <p>
-      FXEdge è uno strumento educativo pensato per farti capire come funziona davvero il trading con l'arbitraggio. Dopo l'acquisto, ricevi:
-    </p>
-    <ul>
-      <li>📘 Un ebook con spiegazioni passo-passo</li>
-      <li>💻 Uno script Python già funzionante</li>
-      <li>🧪 Un simulatore pronto per testare operazioni reali con dati reali</li>
-      <li>📂 Output in Excel (.CSV) per analizzare i risultati</li>
-    </ul>
-
-    <h2>Versioni disponibili</h2>
-    <ul>
-      <li><strong>FXEdge Base</strong> – €5<br>Guida PDF + Simulatore base</li>
-      <li><strong>FXEdge Avanzato</strong> – €10<br>Include filtro soglie, salvataggio CSV, Telegram alert</li>
-      <li><strong>FXEdge Bundle</strong> – €15<br>Tutto incluso + bonus guida extra + supporto</li>
-    </ul>
-
-    <h2>Chi siamo</h2>
-    <p>
-      FXEdge è un progetto indipendente nato da un'idea di <strong>Andrea Zuccherelli</strong>, appassionato di finanza, tecnologia e formazione, con una solida esperienza nel settore della logistica e dei trasporti.
-    </p>
-    <p>
-      L’obiettivo di FXEdge è rendere l’arbitraggio e il trading quantitativo comprensibili anche a chi parte da zero, attraverso strumenti semplici, guide pratiche e simulatori educativi.
-    </p>
-
-    <h2>Domande frequenti (FAQ)</h2>
-    <p><strong>❓ Devo sapere programmare?</strong><br>
-      No! Il simulatore è pensato per essere usato anche da chi parte da zero. Segui la guida inclusa.</p>
-
-    <p><strong>❓ Posso guadagnare con FXEdge?</strong><br>
-      FXEdge è uno strumento educativo. Serve a capire come funziona il mercato, non a promettere profitti automatici.</p>
-
-    <p><strong>❓ Serve installare qualcosa?</strong><br>
-      Per usare il simulatore sì (Python, gratuito). Ma stiamo lavorando anche a una versione online accessibile dal browser!</p>
-
-    <a class="cta-button" href="https://fxedge.gumroad.com">Scarica ora su Gumroad</a>
+    <button onclick="simulaOperazioni()">Simula 5 operazioni</button>
+    <div class="results" id="risultato">
+      <strong>Risultati appariranno qui...</strong>
+    </div>
+    <button onclick="simulaOperazioni()">🔁 Simula altre 5</button>
   </div>
 
-  <footer>
-    &copy; 2025 FXEdge. Tutti i diritti riservati.
-  </footer>
+  <script>
+    function simulaOperazioni() {
+      const capitale = document.getElementById("capitale").value;
+      const select = document.getElementById("coppie");
+      const selected = Array.from(select.selectedOptions).map(opt => opt.value).join(", ");
+      const soglia = document.getElementById("soglia").value;
+
+      const risultati = [
+        "1. EUR/USD → USD/JPY → EUR: Profitto netto: €3.87 ✅",
+        "2. USD/CHF → EUR/GBP → USD: Profitto netto: €2.13 ❌",
+        "3. GBP/USD → EUR/CHF → GBP: Profitto netto: €5.01 ✅",
+        "4. CAD/JPY → AUD/USD → CAD: Profitto netto: €0.93 ❌",
+        "5. EUR/JPY → GBP/CHF → EUR: Profitto netto: €4.15 ✅"
+      ];
+
+      const out = risultati.sort(() => 0.5 - Math.random()).slice(0, 5);
+
+      document.getElementById("risultato").innerHTML =
+        "<pre>Coppie selezionate: " + selected + "\n\n" + out.join("\n") + "</pre>";
+    }
+  </script>
 </body>
 </html>
 
