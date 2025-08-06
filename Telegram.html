@@ -41,6 +41,10 @@
       opacity: 0;
       animation: slideIn 0.8s forwards;
     }
+    .back-button {
+      display: none;
+      margin-top: 30px;
+    }
     @keyframes slideIn {
       0% {
         transform: translateY(20px);
@@ -57,14 +61,18 @@
   <h1>💬 Simulazione messaggio Telegram</h1>
   <p>Visualizza un esempio di messaggio ricevuto con la versione avanzata.</p>
 
-  <button class="blue-button" onclick="mostraMessaggio()">📩 Simula</button>
+  <button class="blue-button" onclick="mostraMessaggio()">📩 Simula ora</button>
 
   <div class="telegram-msg" id="messaggio"></div>
+  <div class="back-button" id="back-button">
+    <a href="grazie.html" class="blue-button">🔙 Torna indietro</a>
+  </div>
 
   <script>
     function mostraMessaggio() {
       const dati = localStorage.getItem("simulazione_fxedge");
       const msgBox = document.getElementById("messaggio");
+      const backButton = document.getElementById("back-button");
 
       if (dati) {
         const parsed = JSON.parse(dati);
@@ -81,7 +89,12 @@
         msgBox.innerHTML = "⚠️ Nessun dato disponibile. Effettua prima una simulazione.";
         msgBox.style.display = "block";
       }
+
+      setTimeout(() => {
+        backButton.style.display = "block";
+      }, 1000);
     }
   </script>
 </body>
 </html>
+
