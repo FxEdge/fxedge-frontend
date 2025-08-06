@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Versione Telegram - FXEdge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #0c1e2c;
+    }
+    .blue-button {
+      background-color: #2979ff;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+    .blue-button:hover {
+      background-color: #1c5fd0;
+    }
+    .telegram-msg {
+      display: none;
+      background-color: #e0f2ff;
+      border-left: 5px solid #0088cc;
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 500px;
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      border-radius: 10px;
+      opacity: 0;
+      animation: slideIn 0.8s forwards;
+    }
+    @keyframes slideIn {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 Simulazione messaggio Telegram</h1>
+  <p>Visualizza un esempio di messaggio ricevuto con la versione avanzata.</p>
+
+  <button class="blue-button" onclick="mostraMessaggio()">📩 Simula</button>
+
+  <div class="telegram-msg" id="messaggio"></div>
+
+  <script>
+    function mostraMessaggio() {
+      const dati = localStorage.getItem("simulazione_fxedge");
+      const msgBox = document.getElementById("messaggio");
+
+      if (dati) {
+        const parsed = JSON.parse(dati);
+        msgBox.innerHTML = `
+          <strong>📲 FXEdge Alert</strong><br><br>
+          💹 <b>Opportunità rilevata!</b><br>
+          Coppia: ${parsed.coppia}<br>
+          Profitto netto stimato: ${parsed.profitto}<br>
+          Timestamp: ${parsed.tempo}<br><br>
+          👉 Agisci subito!
+        `;
+        msgBox.style.display = "block";
+      } else {
+        msgBox.innerHTML = "⚠️ Nessun dato disponibile. Effettua prima una simulazione.";
+        msgBox.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
