@@ -151,10 +151,29 @@
         tempo: new Date().toLocaleString()
       };
 
-      localStorage.setItem("simulazione_fxedge", JSON.stringify(risultati));
-      window.location.href = "grazie.html";
-    }
-  </script>
-</body>
+     <script>
+  function salvaEDirigi() {
+    // Recupera le simulazioni già salvate, oppure crea un array vuoto
+    let simulazioni = JSON.parse(localStorage.getItem("simulazione_fxedge")) || [];
+
+    // Dati della nuova simulazione (qui puoi usare risultati veri)
+    const nuovaSimulazione = {
+      coppia: "EUR/USD → USD/JPY → EUR",
+      profitto: "+3.25€",
+      tempo: new Date().toLocaleString()
+    };
+
+    // Aggiunge la nuova simulazione all’array
+    simulazioni.push(nuovaSimulazione);
+
+    // Salva l’array aggiornato nel localStorage
+    localStorage.setItem("simulazione_fxedge", JSON.stringify(simulazioni));
+
+    // Reindirizza alla pagina di ringraziamento
+    window.location.href = "grazie.html";
+  }
+</script>
+ </body>
 </html>
+
 
