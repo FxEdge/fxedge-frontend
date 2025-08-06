@@ -17,21 +17,7 @@
       font-size: 18px;
       margin-bottom: 30px;
     }
-    .blue-button {
-  background-color: #2979ff;
-  color: white;
-  padding: 15px 30px;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 16px;
-  margin: 10px;
-  display: inline-block;
-  cursor: pointer;
-}
-.blue-button:hover {
-  background-color: #005bb5;
-}
-    .button {
+    .blue-button, .button {
       background-color: #2979ff;
       color: white;
       padding: 15px 30px;
@@ -41,8 +27,9 @@
       margin: 10px;
       display: inline-block;
       cursor: pointer;
+      border: none;
     }
-    .button:hover {
+    .blue-button:hover, .button:hover {
       background-color: #005bb5;
     }
     #telegram-preview {
@@ -56,18 +43,31 @@
       font-family: 'Courier New', monospace;
       font-size: 16px;
       border-radius: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 0.5s ease forwards;
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
   <h1>Ti è piaciuto il simulatore?</h1>
-  <p>Quello che hai appena visto è una SIMULAZIONE REALE, che pur nella sua semplicità  utilizza algoritmi <br>
-  complessi e flussi di dati in tempo reale per scansionare simultaneamente più mercati, cercando<br>opportunità di profitto senza rischi.<br><br>Cliccando sul tasto “Prova versione con Messaggio Telegram” potrai testare la versione del simulatore che ti invia un messaggio Telegram per informati di una opportunità di Trading che soddisfa i parametri che tu hai inserito in termini di “Profitto”.
-Ma Attenzione: NON E’ Tutto oro ciò che luccica!!</p>
-  <p>Vuoi vedere come sarebbe un messaggio Telegram?</p>
- <a href="https://fxedge.github.io/fxedge-frontend/telegram.html" class="blue-button">📩 Prova la versione Telegram</a>
-  <a href="index.html" class="button">🏠 Torna alla Home</a>
-   <div id="telegram-preview">
+
+  <p>
+    Quello che hai appena visto è una SIMULAZIONE REALE che utilizza algoritmi<br>
+    e flussi di dati in tempo reale per scansionare più mercati.<br><br>
+    Clicca per vedere come sarebbe una notifica Telegram in caso di profitto rilevato.
+  </p>
+
+  <button class="blue-button" onclick="mostraAnteprima()">📩 Prova la versione Telegram</button>
+
+  <div id="telegram-preview">
     <strong>📲 FXEdge Alert</strong><br><br>
     💹 <b>Opportunità rilevata!</b><br>
     Coppia: <span id="coppia"></span><br>
@@ -76,23 +76,30 @@ Ma Attenzione: NON E’ Tutto oro ciò che luccica!!</p>
     👉 Agisci subito!
   </div>
 
+  <br>
+  <a href="https://gumroad.com/fxedge" class="button">🔥 Passa al pacchetto avanzato</a>
+  <a href="index.html" class="button">🏠 Torna alla Home</a>
+
   <script>
     function mostraAnteprima() {
-      const primaRiga = {
-        coppia: "EUR/USD → USD/JPY → EUR/JPY",
+      const esempio = {
+        coppia: "EUR/USD → USD/JPY → EUR",
         profitto: "+3.25€",
-        tempo: "2025-08-06 15:42"
+        tempo: new Date().toLocaleString()
       };
 
-      document.getElementById("coppia").textContent = primaRiga.coppia;
-      document.getElementById("profitto").textContent = primaRiga.profitto;
-      document.getElementById("tempo").textContent = primaRiga.tempo;
+      document.getElementById("coppia").textContent = esempio.coppia;
+      document.getElementById("profitto").textContent = esempio.profitto;
+      document.getElementById("tempo").textContent = esempio.tempo;
 
-      document.getElementById("telegram-preview").style.display = "block";
+      const preview = document.getElementById("telegram-preview");
+      preview.style.display = "block";
+      preview.style.animation = "slideIn 0.5s ease forwards";
     }
   </script>
 </body>
 </html>
+
 
 
 
