@@ -147,6 +147,24 @@
   </script>
 </body>
 </html>
+<script>
+  function salvaEDirigi() {
+    const risultati = {
+      coppia: "EUR/USD → USD/JPY → EUR/JPY",
+      profitto: "+3.25€",
+      tempo: new Date().toLocaleString()
+    };
+
+    // Salva in localStorage
+    localStorage.setItem("simulazione_fxedge", JSON.stringify(risultati));
+
+    // Vai alla pagina grazie
+    window.location.href = "grazie.html";
+  }
+</script>
+
+<!-- Pulsante o azione finale -->
+<button onclick="salvaEDirigi()">✅ Termina simulazione</button>
 
 
 
