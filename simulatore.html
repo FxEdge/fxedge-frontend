@@ -89,16 +89,14 @@
       <strong>Risultati appariranno qui...</strong>
     </div>
     <button onclick="simulaOperazioni()">🔁 Simula ancora</button>
-    <div style="margin-top: 40px; font-size: 14px; color: #444; text-align: left;">
+   <div style="margin-top: 40px; font-size: 14px; color: #444; text-align: left;">
   <strong>Fonte dati (simulazione):</strong> Tassi medi rilevati da broker reali a titolo esemplificativo<br>
   <strong>Broker di riferimento:</strong> OANDA, IG, Interactive Brokers, FXCM, Pepperstone<br>
   I dati sono simulati per uso didattico e non riflettono necessariamente valori di mercato in tempo reale.
 </div>
-  <a class="blue-button" href='index.html'" class="button">🏠 Torna alla Home</a>
+  <a class="blue-button" href='index.html">🏠 Torna alla Home</a>
       </div>
-</div>
-<a href="grazie.html" class="button">🏠 Prova Versione con Messaggio Telegram</a>
-  </div>
+
   <script>
     function simulaOperazioni() {
       const capitale = parseFloat(document.getElementById("capitale").value);
@@ -148,24 +146,8 @@
   </script>
 </body>
 </html>
-<script>
-  function salvaEDirigi() {
-    const risultati = {
-      coppia: "EUR/USD → USD/JPY → EUR/JPY",
-      profitto: "+3.25€",
-      tempo: new Date().toLocaleString()
-    };
 
-    // Salva in localStorage
-    localStorage.setItem("simulazione_fxedge", JSON.stringify(risultati));
 
-    // Vai alla pagina grazie
-    window.location.href = "grazie.html";
-  }
-</script>
-
-<!-- Pulsante o azione finale -->
-<button onclick="salvaEDirigi()">✅ Termina simulazione</button>
 
 
 
