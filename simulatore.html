@@ -53,21 +53,21 @@
       font-family: monospace;
     }
     .blue-button {
-  background-color: #2979ff;
-  color: white;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 16px;
-  display: inline-block;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
-}
-.blue-button:hover {
-  background-color: #1c5fd0;
-}
+      background-color: #2979ff;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+    .blue-button:hover {
+      background-color: #1c5fd0;
+    }
   </style>
 </head>
 <body>
@@ -82,20 +82,20 @@
 
     <label for="numero">Numero massimo di operazioni:</label>
     <input type="number" id="numero" placeholder="Es. 5" />
-  
-        
+
     <button onclick="simulaOperazioni()">Simula operazioni</button>
     <div class="results" id="risultato">
       <strong>Risultati appariranno qui...</strong>
     </div>
     <button onclick="simulaOperazioni()">🔁 Simula ancora</button>
-   <div style="margin-top: 40px; font-size: 14px; color: #444; text-align: left;">
-  <strong>Fonte dati (simulazione):</strong> Tassi medi rilevati da broker reali a titolo esemplificativo<br>
-  <strong>Broker di riferimento:</strong> OANDA, IG, Interactive Brokers, FXCM, Pepperstone<br>
-  I dati sono simulati per uso didattico e non riflettono necessariamente valori di mercato in tempo reale.
-</div>
-  <a class="blue-button" href="#" onclick="salvaEDirigi()">🏠 Torna alla Home</a>
+
+    <div style="margin-top: 40px; font-size: 14px; color: #444; text-align: left;">
+      <strong>Fonte dati (simulazione):</strong> Tassi medi rilevati da broker reali a titolo esemplificativo<br>
+      <strong>Broker di riferimento:</strong> OANDA, IG, Interactive Brokers, FXCM, Pepperstone<br>
+      I dati sono simulati per uso didattico e non riflettono necessariamente valori di mercato in tempo reale.
     </div>
+    <a class="blue-button" href="#" onclick="salvaEDirigi()">🏠 Torna alla Home</a>
+  </div>
 
   <script>
     function simulaOperazioni() {
@@ -143,32 +143,18 @@
 
       document.getElementById("risultato").innerHTML = `<pre>${contenuto}</pre>`;
     }
-<script>
-  function salvaEDirigi() {
-    // Puoi prendere i dati reali dalla simulazione se disponibili, qui sono statici per esempio
-    const risultati = {
-      coppia: "EUR/USD → USD/JPY → EUR/JPY",
-      profitto: "+3.25€",
-      tempo: new Date().toLocaleString()
-    };
 
-    localStorage.setItem("simulazione_fxedge", JSON.stringify(risultati));
-    window.location.href = "grazie.html";
-  }
-</script>
+    function salvaEDirigi() {
+      const risultati = {
+        coppia: "EUR/USD → USD/JPY → EUR/JPY",
+        profitto: "+3.25€",
+        tempo: new Date().toLocaleString()
+      };
+
+      localStorage.setItem("simulazione_fxedge", JSON.stringify(risultati));
+      window.location.href = "grazie.html";
+    }
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
