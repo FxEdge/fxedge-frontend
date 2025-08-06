@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upgrade disponibile – FXEdge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #0c1e2c;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    .button {
+      background-color: #2979ff;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin: 10px;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #005bb5;
+    }
+    #telegram-preview {
+      display: none;
+      background-color: #e0f2ff;
+      border-left: 5px solid #0088cc;
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 500px;
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ti è piaciuto il simulatore?</h1>
+  <p>Con pochi euro in più, puoi ricevere notifiche in tempo reale su Telegram<br>quando si verifica un'opportunità di arbitraggio reale!</p>
+
+  <a href="https://gumroad.com/fxedge" class="button">🔥 Passa al pacchetto avanzato</a>
+  <a href="index.html" class="button">🏠 Torna alla Home</a>
+
+  <br><br>
+  <button class="button" onclick="mostraAnteprima()">📩 Guarda esempio messaggio Telegram</button>
+
+  <div id="telegram-preview">
+    <strong>📲 FXEdge Alert</strong><br><br>
+    💹 <b>Opportunità rilevata!</b><br>
+    Coppia: <span id="coppia"></span><br>
+    Profitto netto stimato: <span id="profitto"></span><br>
+    Timestamp: <span id="tempo"></span><br><br>
+    👉 Agisci subito!
+  </div>
+
+  <script>
+    function mostraAnteprima() {
+      const primaRiga = {
+        coppia: "EUR/USD → USD/JPY → EUR/JPY",
+        profitto: "+3.25€",
+        tempo: "2025-08-06 15:42"
+      };
+
+      document.getElementById("coppia").textContent = primaRiga.coppia;
+      document.getElementById("profitto").textContent = primaRiga.profitto;
+      document.getElementById("tempo").textContent = primaRiga.tempo;
+
+      document.getElementById("telegram-preview").style.display = "block";
+    }
+  </script>
+</body>
+</html>
