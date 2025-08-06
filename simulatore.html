@@ -94,7 +94,8 @@
   <strong>Broker di riferimento:</strong> OANDA, IG, Interactive Brokers, FXCM, Pepperstone<br>
   I dati sono simulati per uso didattico e non riflettono necessariamente valori di mercato in tempo reale.
 </div>
-  <a class="blue-button" href='index.html">🏠 Torna alla Home</a>
+  <a class="blue-button" href="index.html">🏠 Torna alla Home</a>
+    <button class="blue-button" onclick="salvaEDirigi()">✅ Termina simulazione</button>
       </div>
 
   <script>
@@ -143,9 +144,21 @@
 
       document.getElementById("risultato").innerHTML = `<pre>${contenuto}</pre>`;
     }
-  </script>
+  <script>
+  function salvaEDirigi() {
+    const risultati = {
+      coppia: "EUR/USD → USD/JPY → EUR/JPY",
+      profitto: "+3.25€",
+      tempo: new Date().toLocaleString()
+    };
+
+    localStorage.setItem("simulazione_fxedge", JSON.stringify(risultati));
+    window.location.href = "grazie.html";
+  }
+</script>
 </body>
 </html>
+
 
 
 
