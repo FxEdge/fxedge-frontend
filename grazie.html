@@ -47,7 +47,6 @@
       background-color: #005bb5;
     }
     #telegram-preview {
-      display: none;
       background-color: #e0f2ff;
       border-left: 5px solid #0088cc;
       margin: 30px auto;
@@ -57,6 +56,15 @@
       font-family: 'Courier New', monospace;
       font-size: 16px;
       border-radius: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: none;
+    }
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -76,12 +84,7 @@
   <button class="blue-button" onclick="mostraAnteprima()">📩 Prova la versione Telegram</button>
 
   <div id="telegram-preview">
-    <strong>📲 FXEdge Alert</strong><br><br>
-    💹 <b>Opportunità rilevata!</b><br>
-    Coppia: <span id="coppia"></span><br>
-    Profitto netto stimato: <span id="profitto"></span><br>
-    Timestamp: <span id="tempo"></span><br><br>
-    👉 Agisci subito!
+    <!-- Qui apparirà il messaggio Telegram simulato -->
   </div>
 
   <br>
@@ -89,22 +92,54 @@
   <a href="index.html" class="button">🏠 Torna alla Home</a>
 
   <script>
+    let messaggi = [];
+    let indice = 0;
+
     function mostraAnteprima() {
-      const esempio = {
-        coppia: "EUR/USD → USD/JPY → EUR",
-        profitto: "+3.25€",
-        tempo: new Date().toLocaleString()
-      };
+      const preview = document.getElementById("telegram-preview");
+      const btn = document.querySelector(".blue-button");
 
-      document.getElementById("coppia").textContent = esempio.coppia;
-      document.getElementById("profitto").textContent = esempio.profitto;
-      document.getElementById("tempo").textContent = esempio.tempo;
+      // Caricamento dati dal localStorage solo la prima volta
+      if (messaggi.length === 0) {
+        const salvati = JSON.parse(localStorage.getItem("simulazione_fxedge")) || [];
+        messaggi = Array.isArray(salvati) ? salvati : [salvati];
+      }
 
-      document.getElementById("telegram-preview").style.display = "block";
+      // Se non ci sono dati disponibili
+      if (messaggi.length === 0) {
+        preview.innerHTML = "⚠️ Nessun dato disponibile.";
+        preview.style.display = "block";
+        preview.style.animation = "slideIn 0.6s ease forwards";
+        return;
+      }
+
+      // Messaggio attuale
+      const riga = messaggi[indice];
+      indice = (indice + 1) % messaggi.length;
+
+      // Cambia etichetta bottone
+      btn.textContent = "🔁 Riprova";
+
+      // Reset animazione
+      preview.style.animation = "none";
+      preview.offsetHeight; // forza il reflow
+      preview.style.animation = "slideIn 0.6s ease forwards";
+
+      // Mostra contenuto
+      preview.innerHTML = `
+        <strong>📲 FXEdge Alert</strong><br><br>
+        💹 <b>Opportunità rilevata!</b><br>
+        Coppia: ${riga.coppia}<br>
+        Profitto netto stimato: ${riga.profitto}<br>
+        Timestamp: ${riga.tempo}<br><br>
+        👉 Agisci subito!
+      `;
     }
   </script>
 </body>
 </html>
+
+
 
 
 
