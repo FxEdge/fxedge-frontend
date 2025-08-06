@@ -17,7 +17,7 @@
       font-size: 18px;
       margin-bottom: 30px;
     }
-    .blue-button, .button {
+    .blue-button {
       background-color: #2979ff;
       color: white;
       padding: 15px 30px;
@@ -29,7 +29,21 @@
       cursor: pointer;
       border: none;
     }
-    .blue-button:hover, .button:hover {
+    .blue-button:hover {
+      background-color: #005bb5;
+    }
+    .button {
+      background-color: #2979ff;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin: 10px;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .button:hover {
       background-color: #005bb5;
     }
     #telegram-preview {
@@ -43,16 +57,6 @@
       font-family: 'Courier New', monospace;
       font-size: 16px;
       border-radius: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideIn 0.5s ease forwards;
-    }
-
-    @keyframes slideIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
   </style>
 </head>
@@ -60,9 +64,13 @@
   <h1>Ti è piaciuto il simulatore?</h1>
 
   <p>
-    Quello che hai appena visto è una SIMULAZIONE REALE che utilizza algoritmi<br>
-    e flussi di dati in tempo reale per scansionare più mercati.<br><br>
-    Clicca per vedere come sarebbe una notifica Telegram in caso di profitto rilevato.
+    Quello che hai appena visto è una SIMULAZIONE REALE, che pur nella sua semplicità utilizza algoritmi<br>
+    complessi e flussi di dati in tempo reale per scansionare simultaneamente più mercati, cercando<br>
+    opportunità di profitto senza rischi.<br><br>
+    Cliccando sul tasto “Prova versione con Messaggio Telegram” potrai testare la versione del simulatore<br>
+    che ti invia un messaggio Telegram per informarti di una opportunità di Trading che soddisfa i parametri<br>
+    che tu hai inserito in termini di “Profitto”.
+    <br><br><strong>Ma Attenzione: NON E’ tutto oro ciò che luccica!!</strong>
   </p>
 
   <button class="blue-button" onclick="mostraAnteprima()">📩 Prova la versione Telegram</button>
@@ -92,13 +100,12 @@
       document.getElementById("profitto").textContent = esempio.profitto;
       document.getElementById("tempo").textContent = esempio.tempo;
 
-      const preview = document.getElementById("telegram-preview");
-      preview.style.display = "block";
-      preview.style.animation = "slideIn 0.5s ease forwards";
+      document.getElementById("telegram-preview").style.display = "block";
     }
   </script>
 </body>
 </html>
+
 
 
 
