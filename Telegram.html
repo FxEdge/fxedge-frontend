@@ -39,6 +39,9 @@
       font-size: 16px;
       border-radius: 10px;
       opacity: 0;
+      transform: translateY(20px);
+    }
+    .telegram-msg.show {
       animation: slideIn 0.8s forwards;
     }
     .back-button {
@@ -84,11 +87,12 @@
           Timestamp: ${parsed.tempo}<br><br>
           👉 Agisci subito!
         `;
-        msgBox.style.display = "block";
       } else {
         msgBox.innerHTML = "⚠️ Nessun dato disponibile. Effettua prima una simulazione.";
-        msgBox.style.display = "block";
       }
+
+      msgBox.style.display = "block";
+      msgBox.classList.add("show");
 
       setTimeout(() => {
         backButton.style.display = "block";
