@@ -37,16 +37,47 @@
       background: #0073e6;
       color: white;
       padding: 15px 25px;
-      margin: 15px 10px 0 0;
+      margin: 20px 15px 0 0;
       font-size: 18px;
       text-decoration: none;
       border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    .cta-button:hover {
+      background: #005bb5;
+    }
+    .motivational {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 20px;
+      font-style: italic;
+      color: #0c1e2c;
+    }
+    .badge {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .badge img {
+      max-width: 300px;
+      opacity: 0.9;
     }
     footer {
       text-align: center;
       padding: 20px;
       font-size: 14px;
       color: #777;
+      background: #fff;
+    }
+    @media (max-width: 600px) {
+      .cta-button {
+        display: block;
+        margin: 15px auto;
+        width: 80%;
+        text-align: center;
+      }
+      header img {
+        height: 80px;
+      }
     }
   </style>
 </head>
@@ -58,6 +89,40 @@
   </header>
 
   <div class="content">
+    
+    
+    
+    
+    <h2>Chi siamo</h2>
+    <p>
+      <strong>FXEdge</strong> è un progetto indipendente nato da un'idea di <strong>Andrea Zuccherelli</strong>, esperto di logistica e trasporti, nonché appassionato di finanza, tecnologia e formazione.
+    </p>
+    <p>
+      L’obiettivo di FXEdge è rendere l’arbitraggio e il trading quantitativo comprensibili anche a chi parte da zero, attraverso strumenti semplici, guide pratiche e simulatori educativi.
+    </p>
+    <p>
+      Il progetto è nato senza finalità di lucro, con l’intento principale di informare le persone che, come il suo fondatore, sono interessate a conoscere, valutare e — se del caso — agire.
+    </p>
+    <p>
+      Nel progetto è stata coinvolta l’intera famiglia del fondatore.
+    </p>
+    <p>
+      Il figlio <strong>Davide</strong>, di 11 anni, ha sostenuto papà Andrea nella programmazione.
+    </p>
+    <p>
+      <strong>Riccardo</strong>, di 5 anni, è stato il Marketing Manager del progetto.
+    </p>
+    <p>
+      Mamma <strong>Ilaria</strong> ha sostenuto l’intero team con cibo, acqua e tanta pazienza… ❤️
+    </p>
+    <p>
+      Il progetto rispecchia perfettamente la filosofia condivisa da tutta la famiglia:<br>
+      <strong>“Buono per me, buono per gli altri, buono per tutti.”</strong>
+    </p>
+
+<h2>Perché provarlo?</h2>
+    <p>FXEdge non è un sistema di investimento, ma un percorso didattico progettato per farti capire come funziona davvero l'arbitraggio. Simuli operazioni reali, scopri i rischi e i vantaggi, e impari tutto senza dover rischiare capitale reale.</p>
+
     <h2>Cosa include?</h2>
     <ul>
       <li>✅ Ebook introduttivo all'arbitraggio (PDF)</li>
@@ -66,13 +131,7 @@
       <li>✅ Salvataggio dei risultati in Excel (.CSV)</li>
     </ul>
 
-    <h2>Perché provarlo?</h2>
-    <p>FXEdge non è un sistema di investimento, ma un percorso didattico progettato per farti capire come funziona davvero l'arbitraggio. Simuli operazioni reali, scopri i rischi e i vantaggi, e impari tutto senza dover rischiare capitale reale.</p>
-
     <h2>Come funziona FXEdge Simulator</h2>
-    <p>
-      FXEdge è uno strumento educativo pensato per farti capire come funziona davvero il trading con l'arbitraggio. Dopo l'acquisto, ricevi:
-    </p>
     <ul>
       <li>📘 Un ebook con spiegazioni passo-passo</li>
       <li>💻 Uno script Python già funzionante</li>
@@ -87,26 +146,28 @@
       <li><strong>FXEdge Bundle</strong> – €15<br>Tutto incluso + bonus guida extra + supporto</li>
     </ul>
 
-    <h2>Chi siamo</h2>
-    <p>
-      FXEdge è un progetto indipendente nato da un'idea di <strong>Andrea Zuccherelli</strong>, appassionato di finanza, tecnologia e formazione, con una solida esperienza nel settore della logistica e dei trasporti.
-    </p>
-    <p>
-      L’obiettivo di FXEdge è rendere l’arbitraggio e il trading quantitativo comprensibili anche a chi parte da zero, attraverso strumenti semplici, guide pratiche e simulatori educativi.
-    </p>
-
     <h2>Domande frequenti (FAQ)</h2>
     <p><strong>❓ Devo sapere programmare?</strong><br>
-      No! Il simulatore è pensato per essere usato anche da chi parte da zero. Segui la guida inclusa.</p>
+      No! Il simulatore è pensato per essere usato anche da chi parte da zero.</p>
 
     <p><strong>❓ Posso guadagnare con FXEdge?</strong><br>
-      FXEdge è uno strumento educativo. Serve a capire come funziona il mercato, non a promettere profitti automatici.</p>
+      FXEdge è uno strumento educativo. Serve a capire il mercato, non a promettere profitti.</p>
 
     <p><strong>❓ Serve installare qualcosa?</strong><br>
-      Per usare il simulatore sì (Python, gratuito). Ma stiamo lavorando anche a una versione online accessibile dal browser!</p>
+      Sì: Python, ma è gratuito e spiegato nella guida. A breve anche versione online!</p>
 
-    <a class="cta-button" href="https://fxedge.gumroad.com">🛒 Acquista ora su Gumroad</a>
-    <a class="cta-button" href="login.html">🔐 Accedi al simulatore</a>
+    <div style="text-align: center;">
+      <a class="cta-button" href="https://fxedge.gumroad.com">🛒 Acquista ora su Gumroad</a>
+      <a class="cta-button" href="login.html">🔐 Accedi al simulatore</a>
+    </div>
+
+    <div class="motivational">
+      Hai tutto quello che ti serve per iniziare. Ora tocca a te!
+    </div>
+
+    <div class="badge">
+      <img src="fxedge-badge.png" alt="Badge FXEdge firmato">
+    </div>
   </div>
 
   <footer>
