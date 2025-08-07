@@ -1,155 +1,180 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <title>Upgrade disponibile – FXEdge</title>
+  <meta charset="UTF-8">
+  <title>FXEdge Simulatore – Prototipo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f8ff;
-      text-align: center;
-      padding: 50px;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
     h1 {
+      text-align: center;
       color: #0c1e2c;
     }
-    p {
-      font-size: 18px;
-      margin-bottom: 30px;
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #0073e6;
+      color: white;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .results {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f0f8ff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .results pre {
+      font-family: monospace;
     }
     .blue-button {
       background-color: #2979ff;
       color: white;
-      padding: 15px 30px;
+      padding: 12px 24px;
       text-decoration: none;
       border-radius: 8px;
       font-size: 16px;
-      margin: 10px;
       display: inline-block;
-      cursor: pointer;
       border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
     }
     .blue-button:hover {
-      background-color: #005bb5;
-    }
-    .button {
-      background-color: #2979ff;
-      color: white;
-      padding: 15px 30px;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 16px;
-      margin: 10px;
-      display: inline-block;
-      cursor: pointer;
-    }
-    .button:hover {
-      background-color: #005bb5;
-    }
-    #telegram-preview {
-      background-color: #e0f2ff;
-      border-left: 5px solid #0088cc;
-      margin: 30px auto;
-      padding: 20px;
-      max-width: 500px;
-      text-align: left;
-      font-family: 'Courier New', monospace;
-      font-size: 16px;
-      border-radius: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: none;
-    }
-    @keyframes slideIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      background-color: #1c5fd0;
     }
   </style>
 </head>
 <body>
-  <h1>Ti è piaciuto il simulatore?</h1>
+  <div class="container">
+    <h1>FXEdge Simulatore (Prototipo)</h1>
 
-  <p>
-    Quello che hai appena visto è una SIMULAZIONE REALE, che pur nella sua semplicità utilizza algoritmi<br>
-    complessi e flussi di dati in tempo reale per scansionare simultaneamente più mercati, cercando<br>
-    opportunità di profitto senza rischi.<br><br>
-    Cliccando sul tasto “Prova versione con Messaggio Telegram” potrai testare la versione del simulatore<br>
-    che ti invia un messaggio Telegram per informarti di una opportunità di Trading che soddisfa i parametri<br>
-    che tu hai inserito in termini di “Profitto”.
-    <br><br><strong>Ma Attenzione: NON E’ tutto oro ciò che luccica!!</strong>
-  </p>
+    <label for="capitale">Capitale iniziale (€):</label>
+    <input type="number" id="capitale" placeholder="Es. 1000" />
 
-  <button class="blue-button" onclick="mostraAnteprima()">📩 Prova la versione Telegram</button>
+    <label for="soglia">Soglia minima di profitto (€):</label>
+    <input type="number" id="soglia" placeholder="Es. 3" step="0.01" />
 
-  <div id="telegram-preview">
-    <!-- Qui apparirà il messaggio Telegram simulato -->
+    <label for="numero">Numero massimo di operazioni:</label>
+    <input type="number" id="numero" placeholder="Es. 5" />
+
+    <button onclick="simulaOperazioni()">Simula operazioni</button>
+    <div class="results" id="risultato">
+      <strong>Risultati appariranno qui...</strong>
+    </div>
+    <button onclick="simulaOperazioni()">🔁 Simula ancora</button>
+
+    <div style="margin-top: 40px; font-size: 14px; color: #444; text-align: left;">
+      <strong>Fonte dati (simulazione):</strong> Tassi medi rilevati da broker reali a titolo esemplificativo<br>
+      <strong>Broker di riferimento:</strong> OANDA, IG, Interactive Brokers, FXCM, Pepperstone<br>
+      I dati sono simulati per uso didattico e non riflettono necessariamente valori di mercato in tempo reale.
+    </div>
+    <button class="blue-button" onclick="salvaEDirigi()">🏠 Torna alla Home</button>
   </div>
 
-  <br>
-  <a href="https://gumroad.com/fxedge" class="button">🔥 Passa al pacchetto avanzato</a>
-  <a href="index.html" class="button">🏠 Torna alla Home</a>
-
   <script>
-    let messaggi = [];
-    let indice = 0;
+    function simulaOperazioni() {
+      const capitale = parseFloat(document.getElementById("capitale").value);
+      const soglia = parseFloat(document.getElementById("soglia").value);
+      const numero = parseInt(document.getElementById("numero").value) || 5;
 
-    function mostraAnteprima() {
-      const preview = document.getElementById("telegram-preview");
-      const btn = document.querySelector(".blue-button");
-
-      // Caricamento dati dal localStorage solo la prima volta
-      if (messaggi.length === 0) {
-        const salvati = JSON.parse(localStorage.getItem("simulazione_fxedge")) || [];
-        messaggi = Array.isArray(salvati) ? salvati : [salvati];
-      }
-
-      // Se non ci sono dati disponibili
-      if (messaggi.length === 0) {
-        preview.innerHTML = "⚠️ Nessun dato disponibile.";
-        preview.style.display = "block";
-        preview.style.animation = "slideIn 0.6s ease forwards";
+      if (isNaN(capitale) || isNaN(soglia) || isNaN(numero)) {
+        alert("Inserisci tutti i campi richiesti.");
         return;
       }
 
-      // Messaggio attuale
-      const riga = messaggi[indice];
-      indice = (indice + 1) % messaggi.length;
+      const spreadRilevato = 0.12;
+      const commissioneRilevata = 0.10;
 
-      // Cambia etichetta bottone
-      btn.textContent = "🔁 Riprova";
+      const tutteLeOperazioni = [
+        { descrizione: "EUR/USD → USD/JPY → EUR", profitto: 3.87 },
+        { descrizione: "USD/CHF → EUR/GBP → USD", profitto: 2.13 },
+        { descrizione: "GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
+        { descrizione: "CAD/JPY → AUD/USD → CAD", profitto: 0.93 },
+        { descrizione: "EUR/JPY → GBP/CHF → EUR", profitto: 4.15 },
+        { descrizione: "USD/CAD → EUR/USD → USD", profitto: 3.21 },
+        { descrizione: "AUD/JPY → USD/CHF → AUD", profitto: 1.75 },
+        { descrizione: "GBP/CAD → EUR/JPY → GBP", profitto: 2.88 }
+      ];
 
-      // Reset animazione
-      preview.style.animation = "none";
-      preview.offsetHeight; // forza il reflow
-      preview.style.animation = "slideIn 0.6s ease forwards";
+      const selezionate = tutteLeOperazioni
+        .sort(() => 0.5 - Math.random())
+        .slice(0, numero)
+        .map(op => {
+          const simbolo = op.profitto >= soglia ? '✅' : '❌';
+          return `${op.descrizione}: Profitto netto: €${op.profitto.toFixed(2)} ${simbolo}`;
+        });
 
-      // Mostra contenuto
-      preview.innerHTML = `
-        <strong>📲 FXEdge Alert</strong><br><br>
-        💹 <b>Opportunità rilevata!</b><br>
-        Coppia: ${riga.coppia}<br>
-        Profitto netto stimato: ${riga.profitto}<br>
-        Timestamp: ${riga.tempo}<br><br>
-        👉 Agisci subito!
+      const sopraSoglia = selezionate.filter(r => r.includes('✅')).length;
+      const sottoSoglia = selezionate.filter(r => r.includes('❌')).length;
+
+      const contenuto = `
+        ${selezionate.join("<br>")}
+        <br><br><strong>Totale operazioni sopra soglia:</strong> ${sopraSoglia}<br>
+        <strong>Totale operazioni sotto soglia:</strong> ${sottoSoglia}<br><br>
+        Spread di mercato rilevato: ${spreadRilevato}%<br>
+        Commissioni di mercato rilevate: ${commissioneRilevata}%
       `;
+
+      document.getElementById("risultato").innerHTML = `<pre>${contenuto}</pre>`;
+    }
+
+    function salvaEDirigi() {
+      let simulazioni = JSON.parse(localStorage.getItem("simulazione_fxedge"));
+      if (!Array.isArray(simulazioni)) {
+        simulazioni = [];
+      }
+
+      const tutteLeOperazioni = [
+        { descrizione: "EUR/USD → USD/JPY → EUR", profitto: 3.87 },
+        { descrizione: "USD/CHF → EUR/GBP → USD", profitto: 2.13 },
+        { descrizione: "GBP/USD → EUR/CHF → GBP", profitto: 5.01 },
+        { descrizione: "CAD/JPY → AUD/USD → CAD", profitto: 0.93 },
+        { descrizione: "EUR/JPY → GBP/CHF → EUR", profitto: 4.15 },
+        { descrizione: "USD/CAD → EUR/USD → USD", profitto: 3.21 },
+        { descrizione: "AUD/JPY → USD/CHF → AUD", profitto: 1.75 },
+        { descrizione: "GBP/CAD → EUR/JPY → GBP", profitto: 2.88 }
+      ];
+
+      const casuale = tutteLeOperazioni[Math.floor(Math.random() * tutteLeOperazioni.length)];
+
+      const nuovaSimulazione = {
+        coppia: casuale.descrizione,
+        profitto: `+${casuale.profitto.toFixed(2)}€`,
+        tempo: new Date().toLocaleString()
+      };
+
+      simulazioni.push(nuovaSimulazione);
+
+      localStorage.setItem("simulazione_fxedge", JSON.stringify(simulazioni));
+
+      window.location.href = "grazie.html";
     }
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
