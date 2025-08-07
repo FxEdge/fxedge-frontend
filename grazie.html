@@ -91,6 +91,11 @@
   <a href="https://gumroad.com/fxedge" class="button">🔥 Passa al pacchetto avanzato</a>
   <a href="index.html" class="button">🏠 Torna alla Home</a>
 
+  <audio id="ping-audio" preload="auto">
+    <source src="https://notificationsounds.com/storage/sounds/file-sounds-1150-pristine.mp3" type="audio/mpeg">
+    Il tuo browser non supporta l'audio HTML5.
+  </audio>
+
   <script>
     let messaggi = [];
     let indice = 0;
@@ -98,34 +103,26 @@
     function mostraAnteprima() {
       const preview = document.getElementById("telegram-preview");
       const btn = document.querySelector(".blue-button");
+      const audio = document.getElementById("ping-audio");
 
-      // Caricamento dati dal localStorage solo la prima volta
-      if (messaggi.length === 0) {
-        const salvati = JSON.parse(localStorage.getItem("simulazione_fxedge")) || [];
-        messaggi = Array.isArray(salvati) ? salvati : [salvati];
-      }
+      const salvati = JSON.parse(localStorage.getItem("simulazione_fxedge")) || [];
+      messaggi = Array.isArray(salvati) ? salvati : [salvati];
 
-      // Se non ci sono dati disponibili
-      if (messaggi.length === 0) {
+      if (messaggi.length === 0 || !messaggi[indice]) {
         preview.innerHTML = "⚠️ Nessun dato disponibile.";
         preview.style.display = "block";
         preview.style.animation = "slideIn 0.6s ease forwards";
         return;
       }
 
-      // Messaggio attuale
       const riga = messaggi[indice];
       indice = (indice + 1) % messaggi.length;
-
-      // Cambia etichetta bottone
       btn.textContent = "🔁 Riprova";
 
-      // Reset animazione
       preview.style.animation = "none";
-      preview.offsetHeight; // forza il reflow
+      preview.offsetHeight;
       preview.style.animation = "slideIn 0.6s ease forwards";
 
-      // Mostra contenuto
       preview.innerHTML = `
         <strong>📲 FXEdge Alert</strong><br><br>
         💹 <b>Opportunità rilevata!</b><br>
@@ -134,6 +131,9 @@
         Timestamp: ${riga.tempo}<br><br>
         👉 Agisci subito!
       `;
+
+      audio.currentTime = 0;
+      audio.play();
     }
   </script>
 </body>
