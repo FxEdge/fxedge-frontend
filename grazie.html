@@ -66,6 +66,15 @@
         transform: translateY(0);
       }
     }
+    .glow {
+      box-shadow: 0 0 15px #00bcd4;
+      animation: glowPulse 1s ease-in-out;
+    }
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 5px #00bcd4; }
+      50% { box-shadow: 0 0 25px #00bcd4; }
+      100% { box-shadow: 0 0 5px #00bcd4; }
+    }
   </style>
 </head>
 <body>
@@ -131,6 +140,10 @@
         Timestamp: ${riga.tempo}<br><br>
         👉 Agisci subito!
       `;
+
+      preview.classList.remove("glow");
+      void preview.offsetWidth;
+      preview.classList.add("glow");
 
       audio.currentTime = 0;
       audio.play();
