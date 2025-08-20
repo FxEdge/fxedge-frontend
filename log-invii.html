@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Log invii email</title>
+  <link rel="icon" href="assets/logo.svg">
+  <style>
+    :root{--bg:#f3f4f6;--surface:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--primary:#2563eb}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto}
+    .wrap{width:min(1100px,92%);margin-inline:auto;padding:20px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.06);padding:16px}
+    h1{margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+    .right{display:flex;gap:8px;align-items:center}
+    .input{padding:10px;border:1px solid var(--border);border-radius:10px;font:inherit;background:#fff;width:280px}
+    .btn{display:inline-block;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none}
+    .pill{font-size:12px;background:#eef2ff;color:#3730a3;border-radius:999px;padding:2px 8px}
+    .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px;background:#fff}
+    table{width:100%;border-collapse:collapse}
+    thead tr{background:#f9fafb}
+    th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    tr:hover td{background:#fafafa}
+    .status-ok{color:#065f46;font-weight:600}
+    .status-err{color:#b91c1c;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Log invii email</h1>
+      <a class="btn" href="home.html">← Torna alla Dashboard</a>
+    </header>
+
+    <section class="card">
+      <div class="toolbar">
+        <div class="muted">Elenco in sola lettura degli invii (simulati o reali), dal più recente.</div>
+        <div class="right">
+          <input id="q" class="input" type="text" placeholder="Cerca in destinatari, oggetto o nomi…">
+          <span id="count" class="pill">0 elementi</span>
+          <button id="btnRefresh" class="btn">↻ Aggiorna</button>
+          <button id="btnExport" class="btn">📂 Esporta CSV</button>
+          <button id="btnClear" class="btn">🗑️ Svuota log</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th>Data/ora (Roma)</th>
+              <th>Stato</th>
+              <th>Destinatari</th>
+              <th>Oggetto</th>
+              <th>Contatto</th>
+              <th>Defunto</th>
+              <th>Errore</th>
+            </tr>
+          </thead>
+          <tbody><!-- rows --></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="muted" style="margin-top:10px">API: <code id="apiInUso"></code></p>
+  </div>
+
+  <script>
+    // ==== Guard auth ====
+    if (!localStorage.getItem('damiano_token')) { location.replace('index.html'); }
+
+    // ==== API base ====
+    const DEFAULT_API = 'https://damiano-backend-ancz.onrender.com'; // cambia se usi il backend locale
+    const API = localStorage.getItem('damiano_api') || DEFAULT_API;
+    document.getElementById('apiInUso').textContent = API;
+
+    const $ = s => document.querySelector(s);
+    let all = [];
+
+    function norm(s){ return (s||'').toString().trim().toLowerCase(); }
+
+    function toRome(iso){
+      if(!iso) return '';
+      try{
+        const d = new Date(iso);
+        return d.toLocaleString('it-IT', { timeZone: 'Europe/Rome' });
+      }catch(e){ return iso; }
+    }
+
+    function render(rows){
+      const tb = $('#tbl tbody');
+      tb.innerHTML = '';
+      $('#count').textContent = `${rows.length} elemento${rows.length===1?'':'i'}`;
+
+      rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        const statoOk = r.stato && r.stato.toLowerCase()==='ok';
+        const destinatari = Array.isArray(r.to) ? r.to.join(', ') : (r.to||'');
+        const contatto = [r.nome||'', r.cognome||''].filter(Boolean).join(' ');
+        const defunto  = [r.def_nome||'', r.def_cognome||''].filter(Boolean).join(' ');
+        tr.innerHTML = `
+          <td>${toRome(r.sent_at)}</td>
+          <td class="${statoOk?'status-ok':'status-err'}">${r.stato||''}</td>
+          <td>${destinatari}</td>
+          <td>${r.subject||''}</td>
+          <td>${contatto}</td>
+          <td>${defunto}</td>
+          <td>${r.errore||''}</td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
+
+    function sortByDateDesc(arr){
+      return arr.slice().sort((a,b)=>{
+        const ta = new Date(a.sent_at||0).getTime();
+        const tb = new Date(b.sent_at||0).getTime();
+        return tb - ta;
+      });
+    }
+
+    async function load(){
+      try{
+        const res = await fetch(`${API}/admin/sent-emails`);
+        if(!res.ok){
+          const txt = await res.text().catch(()=> '');
+          alert(`Errore caricamento log (HTTP ${res.status}).\n${txt.slice(0,200)}`);
+          return;
+        }
+        all = await res.json();
+        render(sortByDateDesc(all));
+      }catch(e){
+        alert('Errore di rete nel caricamento del log.');
+      }
+    }
+
+    // filtro live
+    $('#q').addEventListener('input', e=>{
+      const q = norm(e.target.value);
+      const base = sortByDateDesc(all);
+      if(!q) return render(base);
+      const filt = base.filter(r=>{
+        const destinatari = Array.isArray(r.to) ? r.to.join(' ') : (r.to||'');
+        return (
+          norm(destinatari).includes(q) ||
+          norm(r.subject).includes(q) ||
+          norm(r.nome).includes(q) ||
+          norm(r.cognome).includes(q) ||
+          norm(r.def_nome).includes(q) ||
+          norm(r.def_cognome).includes(q) ||
+          norm(r.errore).includes(q)
+        );
+      });
+      render(filt);
+    });
+
+    // refresh
+    $('#btnRefresh').addEventListener('click', load);
+
+    // export CSV (filtrato)
+    $('#btnExport').addEventListener('click', ()=>{
+      const trs = document.querySelectorAll('#tbl tbody tr');
+      const headers = ["Data/ora (Roma)","Stato","Destinatari","Oggetto","Contatto","Defunto","Errore"];
+      const lines = [headers.join(",")];
+      trs.forEach(tr=>{
+        const tds = tr.querySelectorAll('td');
+        const vals = Array.from(tds).map(td => `"${td.textContent.replace(/"/g,'""')}"`);
+        lines.push(vals.join(","));
+      });
+      const blob = new Blob([lines.join("\n")], {type:"text/csv;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'log-invii.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // clear log
+    $('#btnClear').addEventListener('click', async ()=>{
+      if(!confirm('Sicuro di svuotare il log? Operazione irreversibile.')) return;
+      try{
+        const res = await fetch(`${API}/admin/sent-emails`, { method:'DELETE' });
+        if(!res.ok){
+          const txt = await res.text().catch(()=> '');
+          alert(`Errore durante la cancellazione (HTTP ${res.status}).\n${txt.slice(0,200)}`);
+          return;
+        }
+        all = [];
+        render(all);
+      }catch(e){
+        alert('Errore di rete durante la cancellazione del log.');
+      }
+    });
+
+    load();
+  </script>
+</body>
+</html>
